@@ -1,20 +1,30 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const applyBtn = document.getElementById('apply-btn');
-  const resetBtn = document.getElementById('reset-btn');
-  const colorInput = document.getElementById('color-input');
-  const box = document.getElementById('box');
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = selector => document.querySelector(selector);
 
-  if (!applyBtn || !resetBtn || !colorInput || !box) {
+  const box = $('#box');
+  const input = $('#color-input');
+  const applyBtn = $('#apply-btn');
+  const resetBtn = $('#reset-btn');
+  const randomBtn = $('#random-btn');
+
+  if (!box || !input || !applyBtn || !resetBtn || !randomBtn) {
     console.error('Required homepage elements are missing.');
     return;
   }
 
-  applyBtn.addEventListener('click', function () {
-    box.style.backgroundColor = colorInput.value;
+  const setColor = color => {
+    box.style.backgroundColor = color;
+  };
+
+  applyBtn.addEventListener('click', () => setColor(input.value));
+
+  resetBtn.addEventListener('click', () => {
+    setColor('#ddd');
+    input.value = '#000000';
   });
 
-  resetBtn.addEventListener('click', function () {
-    box.style.backgroundColor = '#ddd';
-    colorInput.value = '';
+  randomBtn.addEventListener('click', () => {
+    const color = `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')}`;
+    setColor(color);
   });
 });
